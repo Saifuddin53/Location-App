@@ -55,6 +55,11 @@ fun LocationDisplay(
     viewModel: LocationViewModel
     ,context: Context
 ) {
+    val location = viewModel.location.value
+    val address = location?.let {
+        locationUtils.reverseGeoCodeLocation(location)
+    }
+
     val requestPermissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestMultiplePermissions(),
         onResult = { permissions ->
@@ -92,10 +97,16 @@ fun LocationDisplay(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = "No Location")
+
+        if(location != null) {
+            Text(text = address ?: "No ")
+        }else {
+            Text(text = "No location")
+        }
+
         Button(onClick = {
             if(locationUtils.hasLocationPermission(context)) {
-
+                locationUtils.getLocation(viewModel)
             }else {
                 requestPermissionLauncher.launch(
                     arrayOf(
