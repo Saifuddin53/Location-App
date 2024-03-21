@@ -18,4 +18,8 @@ class LocationUtils(val context: Context) {
                     Manifest.permission.ACCESS_COARSE_LOCATION
                 ) == PackageManager.PERMISSION_GRANTED
     }
+
+    fun getLocation() {
+
+    }
 }
